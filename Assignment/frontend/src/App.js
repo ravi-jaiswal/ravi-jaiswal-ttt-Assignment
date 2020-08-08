@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
+
 import "./App.css";
 import { useInput } from "./input-hook";
 import Words from "./Words";
@@ -7,15 +7,27 @@ import Words from "./Words";
 function App() {
   const { value, bind, reset } = useInput("");
   const [isVisible, setVisible] = useState(false);
-  const [isError, setError] = useState(false);
+  const [isErrorBlank, setErrorBlank] = useState(false);
+  const [isNoError, setNoError] = useState(false);
+  const [isErrorNeg, setErrorNeg] = useState(false);
   const [wordlist, setWordList] = useState([]);
+  const [valuep, setvaluep] = useState();
 
   const handleSubmit = async (evt) => {
-    setError(false);
+    setVisible(false);
+    setNoError(false);
+    setErrorBlank(false);
+    setErrorNeg(false);
     evt.preventDefault();
     if (!value) {
-      setError(true);
+      setErrorBlank(true);
+      return null;
     }
+    if (value <= 0) {
+      setErrorNeg(true);
+      return null;
+    }
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -29,7 +41,10 @@ function App() {
       redirect: "follow",
     };
 
-    var result = await fetch("http://localhost:5000/num", requestOptions)
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const url = "https://murmuring-earth-05108.herokuapp.com/num";
+
+    var result = await fetch(proxyurl + url, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         return result;
@@ -37,6 +52,9 @@ function App() {
       .catch((error) => console.log("error", error));
     setWordList(result);
     setVisible(true);
+
+    setvaluep(value);
+    setNoError(true);
   };
   return (
     <div className="App">
@@ -65,9 +83,16 @@ function App() {
                 />
               </div>
             </div>
-            {isError ? (
+            {isErrorBlank ? (
               <p>
                 <code>Field cannot be left empty</code>
+              </p>
+            ) : (
+              <p></p>
+            )}
+            {isErrorNeg ? (
+              <p>
+                <code>Number cannot be negative or 0</code>
               </p>
             ) : (
               <p></p>
@@ -77,6 +102,13 @@ function App() {
             </button>
           </form>
         </div>
+        {isNoError ? (
+          <p>
+            <code className="valuep">Showing top {valuep} words</code>
+          </p>
+        ) : (
+          <p></p>
+        )}
       </header>
       {isVisible ? <Words wordlist={wordlist} /> : <p></p>}
     </div>
