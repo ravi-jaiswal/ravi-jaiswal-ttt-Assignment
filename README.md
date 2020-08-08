@@ -32,6 +32,6 @@ Two components are used in React project-
 # Here is a screenshot of running application
 
 <img src="img.png">
-<img src="img1.png">
 <img src="img2.png">
+<img src="img3.png">
 Heroku Link: https://secure-anchorage-13445.herokuapp.com/
