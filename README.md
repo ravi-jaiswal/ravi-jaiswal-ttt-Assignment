@@ -12,6 +12,6 @@ Nodejs version >10 and NPM version >6 is required.
   - Once the Server is running start React app with npm start.
 
 # Here is a screenshot of running application
-
+<img src="img.png">
 
 Heroku Link: https://secure-anchorage-13445.herokuapp.com/
