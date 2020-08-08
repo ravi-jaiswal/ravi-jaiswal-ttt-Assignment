@@ -26,8 +26,7 @@ Two components are used in React project-
   - Certain functions like toLowerCase(), replace(), split() are used to clean the string.
   - The string is then converted to array of word.
   - Array is then converted to an object with key value pair where key is the word and value is it's frequency.
- 2. Word.js
- - Responsible for renderring the result in the table.
+
 
 # Dependencies
 1. Nodejs-
